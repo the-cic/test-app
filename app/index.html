@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="app" class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>My AngularJS App</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="main/css/app.css">
+</head>
+<body>
+
+  <div ng-view></div>
+
+  <div>Angular seed app: v<span app-version></span></div>
+  
+  <div>some stuff: <span some-directive></span> </div>
+
+  <script src="lib/angular/angular.js"></script>
+  <script src="lib/angular/angular-route.js"></script>
+  <script src="lib/angular/angular-resource.js"></script>
+  
+  <script src="main/app.js"></script>
+  
+  <script src="main/main.js"></script>
+  <script src="components/exp.js"></script>
+  <script src="views/test.js"></script>
+  {{1|upYours}}
+</body>
+</html>
