@@ -1,6 +1,6 @@
 
 
-angular.module('app', ['ngRoute', 'ngResource', 'wtfModule', 'testView'])
+angular.module('app', ['ngRoute', 'ngResource', 'wtfModule', 'testView', 'hexView'])
 
 .config(function($routeProvider, $httpProvider) {
     $httpProvider.defaults.useXDomain = true;
@@ -10,8 +10,12 @@ angular.module('app', ['ngRoute', 'ngResource', 'wtfModule', 'testView'])
 			templateUrl: 'views/test.html',
 			controller: 'TestViewCtrl'
 		})
+		.when('/map', {
+			templateUrl: 'views/hex.html',
+			controller: 'HexViewCtrl'
+		})
         .otherwise({
-            redirectTo: '/test'
+            redirectTo: '/map'
         });
     }
 );

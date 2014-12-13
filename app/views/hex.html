@@ -1,0 +1,34 @@
+<div style="float: left;">
+	<div>Probability map</div>
+	<div>neighbours : probabilities</div>
+	<div>empty-ground-water : [ground, water]</div>
+	<br />
+	<div ng-repeat="(key, value) in ProbabilityMap">
+		{{key}} : {{value}} 
+		<span ng-click="changeProbability(key, +1)" style="cursor:pointer; background-color: lightgrey;">+</span>
+		<span ng-click="changeProbability(key, -1)" style="cursor:pointer; background-color: lightgrey;">-</span>
+	</div>
+</div>
+<div style="position: relative; float: left;" >
+	<div ng-style="{width : (mapWidth * 50) + 'px', height : (mapHeight * 50) + 'px'}">
+		<div ng-repeat="line in lines" style="position: relative;">
+			<span ng-init="lineIndex = $index" />
+			<span ng-init="v = lineIndex" />
+			<span ng-repeat="cell in line track by $index" >
+				<span ng-init="u = v % 2 == 0 ? $index * 2 + 1 : $index * 2" />
+				<div 
+				style="width: 49px; height: 49px; position: absolute;" 
+				ng-style="{top : (v * 50) + 'px', left : (u * 25) + 'px', backgroundColor: cell === null ? 'grey' : (cell ? 'orange' : 'blue')}"
+				ng-click="clickTile(u,v)"
+				> 
+					<!-- {{u}} {{v}} -->
+				</div>
+			</span>
+		</div>
+	</div>
+	<div ng-click="clearMap()" style="cursor: pointer;">Clear map</div>
+	<div ng-click="autoFillMap()" style="cursor: pointer;">Auto fill map</div>
+</div>
+
+<div style="clear: both;"></div>
+
