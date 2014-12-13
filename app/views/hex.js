@@ -131,6 +131,8 @@ angular.module('hexView', ['contentData'])
 	}
 	
 	$scope.autoFillMap = function(){
+		$scope.clearMap();
+		
 		var v = Math.floor($scope.mapHeight / 2);
 		var u = Math.floor($scope.mapWidth / 2) * 2;
 		u -= v % 2 == 0 ? 1 : 0;
