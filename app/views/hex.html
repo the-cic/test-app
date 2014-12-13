@@ -3,10 +3,19 @@
 	<div>neighbours : probabilities</div>
 	<div>empty-ground-water : [ground, water]</div>
 	<br />
-	<div ng-repeat="(key, value) in ProbabilityMap">
+	<div ng-repeat="(key, value) in ProbabilityMap" style="margin-bottom: 1px;">
 		{{key}} : {{value}} 
-		<span ng-click="changeProbability(key, +1)" style="cursor:pointer; background-color: lightgrey;">+</span>
-		<span ng-click="changeProbability(key, -1)" style="cursor:pointer; background-color: lightgrey;">-</span>
+		<span 
+		ng-click="changeProbability(key, +1)" 
+		style="cursor:pointer; display:inline-block; background-color: lightgrey; text-align:center; width: 20px; height: 20px;">
+			+
+		</span>
+		
+		<span 
+		ng-click="changeProbability(key, -1)" 
+		style="cursor:pointer; display:inline-block; background-color: lightgrey; text-align:center; width: 20px; height: 20px;">
+			-
+		</span>
 	</div>
 </div>
 <div style="position: relative; float: left;" >
