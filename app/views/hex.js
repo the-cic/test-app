@@ -39,8 +39,13 @@ angular.module('hexView', ['contentData'])
 	
 })
 .controller('HexViewCtrl', function($scope, $log, DataService, ProbabilityMap){
+	$scope.tileHeight = 50;
+	var radius = $scope.tileHeight / 1.723; // h/2 * 2 / sqrt(3)
+	$scope.tileWidth = radius * 2;
+	$scope.tileUStep = Math.floor(radius * 1.5);
+	$scope.tileVStep = $scope.tileHeight / 2;
 	$scope.mapWidth = 11;
-	$scope.mapHeight = 11;
+	$scope.mapHeight = 33;
 	$scope.ProbabilityMap = ProbabilityMap;
 	
 	$scope.clearMap = function(){
@@ -52,7 +57,7 @@ angular.module('hexView', ['contentData'])
 			}
 			lines.push(line);
 		}
-		$scope.lines = lines;		
+		$scope.lines = lines;
 	}
 	
 	$scope.clearMap();
