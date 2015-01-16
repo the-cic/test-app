@@ -36,7 +36,7 @@ angular.module('hexView', ['contentData'])
 	'0-4-2' : [4, 2],
 	'0-5-1' : [5, 1],
 	'0-6-0' : [6, 0],
-	
+
 })
 .controller('HexViewCtrl', function($scope, $log, DataService, ProbabilityMap){
 	$scope.tileHeight = 50;
@@ -47,7 +47,7 @@ angular.module('hexView', ['contentData'])
 	$scope.mapWidth = 11;
 	$scope.mapHeight = 33;
 	$scope.ProbabilityMap = ProbabilityMap;
-	
+
 	$scope.clearMap = function(){
 		var lines = [];
 		for (var i=0; i < $scope.mapHeight; i++) {
@@ -58,11 +58,27 @@ angular.module('hexView', ['contentData'])
 			lines.push(line);
 		}
 		$scope.lines = lines;
-	}
-	
+	};
+
 	$scope.clearMap();
-	
+
 	$scope.clickTile = function(u, v) {
+        $scope.createCell(u, v);
+
+        /**/
+        $scope.createCell(u - 1, v - 1);
+        $scope.createCell(u - 1, v + 1);
+        $scope.createCell(u, v - 2);
+        $scope.createCell(u, v + 2);
+        $scope.createCell(u + 1, v - 1);
+        $scope.createCell(u + 1, v + 1);
+        /**/
+	};
+
+    $scope.createCell = function(u, v){
+        if (!$scope.hasCell(u,v)) {
+            return;
+        }
 		if ($scope.getCell(u,v) !== null) {
 			return;
 		}
@@ -77,50 +93,51 @@ angular.module('hexView', ['contentData'])
 			value = die <= probability[0];
 		}
 		$scope.setCell(u, v, value);
-	};
-	
+    };
+
 	$scope.hasCell = function(u, v){
 		return !(u < 0 || v < 0 || u >= $scope.mapWidth * 2 || v >= $scope.mapHeight);
-	}
-	
+	};
+
 	$scope.getCell = function(u, v){
 		if (!$scope.hasCell(u, v)) {
 			return null;
 		}
+        //$log.info(u+','+v+':'+$scope.lines[v][Math.floor(u / 2)]);
 		return $scope.lines[v][Math.floor(u / 2)];
 	};
-	
+
 	$scope.setCell = function(u, v, value){
 		$scope.lines[v][Math.floor(u / 2)] = value;
 	};
-	
+
 	$scope.isCellSet = function(u, v){
 		var value = $scope.getCell(u, v);
 		return value !== null;
-	}
-	
+	};
+
 	$scope.countNeighbours = function(u, v){
 		var values = [];
 		values.push($scope.getCell(u - 1, v - 1));
-		values.push($scope.getCell(u + 1, v - 1));
-		values.push($scope.getCell(u - 2, v));
-		values.push($scope.getCell(u + 2, v));
 		values.push($scope.getCell(u - 1, v + 1));
+		values.push($scope.getCell(u,     v - 2));
+		values.push($scope.getCell(u,     v + 2));
+		values.push($scope.getCell(u + 1, v - 1));
 		values.push($scope.getCell(u + 1, v + 1));
-		
+
 		var nullCount = 0;
 		var trueCount = 0;
 		var falseCount = 0;
-		
+
 		for (var i = 0; i < values.length; i++) {
 			nullCount += values[i] === null ? 1 : 0;
 			trueCount += values[i] === true ? 1 : 0;
 			falseCount += values[i] === false ? 1 : 0;
 		}
-		
+
 		return [nullCount, trueCount, falseCount];
 	};
-	
+
 	$scope.changeProbability = function(key, dif){
 		if (ProbabilityMap[key]) {
 			if (dif > 0 && ProbabilityMap[key][0] < 6) {
@@ -133,15 +150,15 @@ angular.module('hexView', ['contentData'])
 				ProbabilityMap[key][1]++;
 			}
 		}
-	}
-	
+	};
+
 	$scope.autoFillMap = function(){
 		$scope.clearMap();
-		
+
 		var v = Math.floor($scope.mapHeight / 2);
 		var u = Math.floor($scope.mapWidth / 2) * 2;
-		u -= v % 2 == 0 ? 1 : 0;
-		
+		u -= v % 2 === 0 ? 1 : 0;
+
 		$scope.clickTile(u, v);
 		u += 2;
 		$scope.clickTile(u, v);
@@ -166,7 +183,7 @@ angular.module('hexView', ['contentData'])
 				} else {
 					u -= 2;
 				}
-			} else 
+			} else
 			if ($scope.isCellSet(u+1, v-1)) {
 				u -= 1;
 				v -= 1;
@@ -188,13 +205,13 @@ angular.module('hexView', ['contentData'])
 		}
 		for (v = 0; v < $scope.mapHeight; v++) {
 			for (var i = 0; i < $scope.mapWidth; i++) {
-				u = v % 2 == 0 ? i * 2 + 1 : i * 2;
+				u = v % 2 === 0 ? i * 2 + 1 : i * 2;
 				if (!$scope.isCellSet(u,v)) {
 					$scope.clickTile(u, v);
-				}				
+				}
 			}
 		}
-	}
+	};
 });
 
 
